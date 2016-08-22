@@ -11,7 +11,7 @@
 
    <container qualifier="wildfly" default="true">
       <configuration>
-         <property name="jbossHome">/home/felias/prace/tutorialy/weld/wildfly-10.0.0.Final</property>
+         <property name="jbossHome">/home/felias/prace/weld/wildfly-10.0.0.Final</property>
       </configuration>
    </container>
 </arquillian>

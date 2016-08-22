@@ -3,19 +3,25 @@ package org.jboss.weld.homework;
 import java.math.BigInteger;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 
 @ApplicationScoped
 public class FactorialImpl implements Factorial {
+	@Inject
+	Event<FactorialComputationFinished> event;
+	@Inject
+	MathOperations op;
 
-	@Override
-	public BigInteger compute(long number) {	
-		if (number <= 1) {
-			return BigInteger.valueOf(1L);
+	public BigInteger compute(long number) {
+		BigInteger result;
+		if (number == 0) {
+			result = BigInteger.ONE;
 		} else {
-			BigInteger result = compute(number - 1L);
-			result=result.multiply(BigInteger.valueOf(number));
-			return result;
+			result = op.multiplySequence(1L, number);
 		}
+		event.fire(new FactorialComputationFinished(number, result));
+		return result;
 
 	}
 

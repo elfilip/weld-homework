@@ -24,6 +24,10 @@ public class FactorialTest {
 
     @Inject
     private Factorial factorial;
+    
+    @Inject
+    @Parallel
+    private Factorial factorialP;
 
     @Deployment
     public static Archive<?> getDeployment() {
@@ -43,9 +47,19 @@ public class FactorialTest {
         assertEquals(BigInteger.valueOf(120), factorial.compute(5));
         assertEquals(BigInteger.valueOf(3628800), factorial.compute(10));
     }
+    
+    @Test
+    public void testFactorialParallel() {
+        assertEquals(BigInteger.ONE, factorialP.compute(0));
+        assertEquals(BigInteger.ONE, factorialP.compute(1));
+        assertEquals(BigInteger.valueOf(2), factorialP.compute(2));
+        assertEquals(BigInteger.valueOf(6), factorialP.compute(3));
+        assertEquals(BigInteger.valueOf(24), factorialP.compute(4));
+        assertEquals(BigInteger.valueOf(120), factorialP.compute(5));
+        assertEquals(BigInteger.valueOf(3628800), factorialP.compute(10));
+    }
 
     @Test
-    @Ignore // TODO: remove once event notification is implemented
     public void testEvent(EventObserver observer) {
         observer.reset();
         factorial.compute(6);
